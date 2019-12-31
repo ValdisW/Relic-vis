@@ -10,6 +10,7 @@
         * {
             margin: 0;
             padding: 0;
+            user-select: none;
         }
 
         html,
@@ -117,14 +118,6 @@
             "material": "",
             "number": 0
         }, {
-            "name": "",
-            "material": "",
-            "number": 0
-        }, {
-            "name": "",
-            "material": "",
-            "number": 0
-        }, {
             "name": "干",
             "material": "",
             "number": 62
@@ -137,8 +130,14 @@
         /*----------------------------------*
          * Global variables
          *----------------------------------*/
-        let instruments = [],
-            current_inst, // 当前在展示的文物
+        let instruments = [], // 所有待选文物
+            current_inst = {
+                inst: null,
+                graphics: {
+                    circle: null,
+                    text: null
+                }
+            }, // 当前在展示的文物
             svg,
             instrument_sum,
             centerX, centerY,
@@ -157,7 +156,6 @@
                 }
             };
 
-
         /*----------------------------------*
          * Data Structure
          *----------------------------------*/
@@ -167,7 +165,6 @@
                 this.name = config.name;
                 this.material = config.material;
                 this.number = config.number | 0;
-                this.isActive = false;
                 this.graphics = {
                     icon: null,
                     background: null,
@@ -175,9 +172,13 @@
                 }
             }
             static change(newIndex, oldIndex) {
-                current_inst.isActive = false;
-                current_inst = instruments[newIndex];
-                current_inst.isActive = true;
+                // 更新当前乐器
+                current_inst.inst = instruments[newIndex];
+                current_inst.graphics.text.text(instruments[newIndex].material);
+
+                // 背景高亮调整
+                instruments[oldIndex].graphics.background.attr("fill", "#DFDFDF");
+                instruments[newIndex].graphics.background.attr("fill", "#AFAFAF");
             }
         }
 
@@ -194,8 +195,8 @@
                     number: data[i].number,
                 }));
             }
-            instruments[0].isActive = true;
-            current_inst = instruments[0]; // 浅拷贝
+            current_inst.inst = instruments[0]; // 浅拷贝
+            // current_inst.graphics.text
 
             instrument_sum = instruments.length;
             centerX = window.innerWidth / 3;
@@ -209,28 +210,28 @@
                 .attr("cx", centerX)
                 .attr("cy", centerY)
                 .attr("r", r1)
-                .attr("stroke", "#eaeaea")
+                .attr("stroke", "#EAEAEA")
                 .attr("stroke-width", "1")
                 .attr("fill", "transparent"),
                 svg.append("circle")
                 .attr("cx", centerX)
                 .attr("cy", centerY)
                 .attr("r", r2)
-                .attr("stroke", "#e5e5e5")
+                .attr("stroke", "#E5E5E5")
                 .attr("stroke-width", "30")
                 .attr("fill", "transparent"),
                 svg.append("circle")
                 .attr("cx", centerX)
                 .attr("cy", centerY)
                 .attr("r", r3)
-                .attr("stroke", "#eaeaea")
+                .attr("stroke", "#EAEAEA")
                 .attr("stroke-width", "1")
                 .attr("fill", "transparent"),
                 svg.append("circle")
                 .attr("cx", centerX)
                 .attr("cy", centerY)
                 .attr("r", r4)
-                .attr("stroke", "#eaeaea")
+                .attr("stroke", "#EAEAEA")
                 .attr("stroke-width", "1")
                 .attr("fill", "transparent")
             ];
@@ -260,7 +261,7 @@
                 .attr("stroke-width", 1));
 
             // Instrument circle
-            instruments.graphics.background.push(svg.append("circle")
+            instruments[i].graphics.background = svg.append("circle")
                 .attr("cx", cx4)
                 .attr("cy", cy4)
                 .attr("r", 30)
@@ -270,15 +271,14 @@
                     this.style.cursor = "pointer";
                 })
                 .on("click", function () {
-                    this.setAttribute("fill", "#AFAFAF");
-                    Instrument.change(this.getAttribute('index'), current_inst.index);
-                }));
-            instruments.graphics.name.push(svg.append("text")
+                    Instrument.change(this.getAttribute('index'), current_inst.inst.index);
+                });
+            instruments[i].graphics.name = svg.append("text")
                 .attr("x", cx4 - 50)
                 .attr("y", cy4 - 30)
                 .attr("font-size", 10)
                 .attr('text-anchor', "right")
-                .text(instruments[i].name));
+                .text(instruments[i].name);
 
             // Number circle
             svg.append("circle")
@@ -310,13 +310,19 @@
                 .text(instruments[i].material);
         }
         // Current material circle
-        svg.append("circle")
+        current_inst.graphics.circle = svg.append("circle")
             .attr("cx", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
             .attr("cy", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI))
             .attr("r", 20)
             .attr("stroke-width", 3)
             .attr("stroke", "#CC3D3E")
             .attr("fill", "#FFF");
+        current_inst.graphics.text = svg.append("text")
+            .attr("x", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
+            .attr("y", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI) + 6)
+            .attr("font-size", 18)
+            .attr('text-anchor', "middle")
+            .text(instruments[0].material);
     </script>
 </body>
 
