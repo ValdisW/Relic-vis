@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>浏阳古乐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body,
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="../javascripts/d3.min.js"></script>
+    <script>
+        /*----------------------------------*
+         *  Raw Data
+         *----------------------------------*/
+        const data = [{
+            "name": "特钟",
+            "material": "金",
+            "number": 1
+        }, {
+            "name": "编钟",
+            "material": "金",
+            "number": 55
+        }, {
+            "name": "特磬",
+            "material": "石",
+            "number": 1
+        }, {
+            "name": "编磬",
+            "material": "石",
+            "number": 24
+        }, {
+            "name": "瓷埙",
+            "material": "土",
+            "number": 2
+        }, {
+            "name": "应鼓",
+            "material": "革",
+            "number": 1
+        }, {
+            "name": "搏拊鼓",
+            "material": "革",
+            "number": 2
+        }, {
+            "name": "七弦琴",
+            "material": "丝",
+            "number": 6
+        }, {
+            "name": "敔",
+            "material": "丝",
+            "number": 1
+        }, {
+            "name": "洞箫",
+            "material": "竹",
+            "number": 6
+        }, {
+            "name": "篪",
+            "material": "竹",
+            "number": 4
+        }, {
+            "name": "龙笛",
+            "material": "竹",
+            "number": 6
+        }, {
+            "name": "凤箫",
+            "material": "竹",
+            "number": 2
+        }, {
+            "name": "大瑟",
+            "material": "丝",
+            "number": 4
+        }, {
+            "name": "笙",
+            "material": "匏",
+            "number": 0
+        }, {
+            "name": "鼗鼓",
+            "material": "革",
+            "number": 6
+        }, {
+            "name": "卉鼓",
+            "material": "革",
+            "number": 1
+        }, {
+            "name": "镛钟",
+            "material": "金",
+            "number": 0
+        }, {
+            "name": "匏",
+            "material": "丝",
+            "number": 2
+        }, {
+            "name": "",
+            "material": "",
+            "number": 0
+        }, {
+            "name": "",
+            "material": "",
+            "number": 0
+        }, {
+            "name": "",
+            "material": "",
+            "number": 0
+        }, {
+            "name": "",
+            "material": "",
+            "number": 0
+        }, {
+            "name": "",
+            "material": "",
+            "number": 0
+        }, {
+            "name": "干",
+            "material": "",
+            "number": 62
+        }, {
+            "name": "戚",
+            "material": "",
+            "number": 63
+        }];
+
+        /*----------------------------------*
+         * Global variables
+         *----------------------------------*/
+        let instruments = [],
+            current_inst, // 当前在展示的文物
+            svg,
+            instrument_sum,
+            centerX, centerY,
+            r1, r2, r3, r4,
+            graphics = {
+                base_frame: [],
+                interacts: {
+                    inst_icons: [],
+                    material_icons: [],
+                    number_icons: [],
+                    current: {
+                        material_icon: null,
+                        inst_icon: null,
+                        name_icon: null
+                    }
+                }
+            };
+
+
+        /*----------------------------------*
+         * Data Structure
+         *----------------------------------*/
+        class Instrument {
+            constructor(config) {
+                this.index = config.index;
+                this.name = config.name;
+                this.material = config.material;
+                this.number = config.number | 0;
+                this.isActive = false;
+                this.graphics = {
+                    icon: null,
+                    background: null,
+                    name: null
+                }
+            }
+            static change(newIndex, oldIndex) {
+                current_inst.isActive = false;
+                current_inst = instruments[newIndex];
+                current_inst.isActive = true;
+            }
+        }
+
+        /*----------------------------------*
+         * Initialize
+         *----------------------------------*/
+        function initialize() {
+            svg = d3.select("body").append("svg");
+            for (let i = 0; i < data.length; i++) {
+                instruments.push(new Instrument({
+                    index: i,
+                    name: data[i].name,
+                    material: data[i].material,
+                    number: data[i].number,
+                }));
+            }
+            instruments[0].isActive = true;
+            current_inst = instruments[0]; // 浅拷贝
+
+            instrument_sum = instruments.length;
+            centerX = window.innerWidth / 3;
+            centerY = window.innerHeight / 2;
+            r1 = 125;
+            r2 = 150;
+            r3 = 230;
+            r4 = 330;
+            graphics.base_frame = [
+                svg.append("circle")
+                .attr("cx", centerX)
+                .attr("cy", centerY)
+                .attr("r", r1)
+                .attr("stroke", "#eaeaea")
+                .attr("stroke-width", "1")
+                .attr("fill", "transparent"),
+                svg.append("circle")
+                .attr("cx", centerX)
+                .attr("cy", centerY)
+                .attr("r", r2)
+                .attr("stroke", "#e5e5e5")
+                .attr("stroke-width", "30")
+                .attr("fill", "transparent"),
+                svg.append("circle")
+                .attr("cx", centerX)
+                .attr("cy", centerY)
+                .attr("r", r3)
+                .attr("stroke", "#eaeaea")
+                .attr("stroke-width", "1")
+                .attr("fill", "transparent"),
+                svg.append("circle")
+                .attr("cx", centerX)
+                .attr("cy", centerY)
+                .attr("r", r4)
+                .attr("stroke", "#eaeaea")
+                .attr("stroke-width", "1")
+                .attr("fill", "transparent")
+            ];
+        }
+        initialize();
+
+        /*----------------------------------*
+         * Graphics & Interaction
+         *----------------------------------*/
+        for (let i = 0; i < instrument_sum; i++) {
+            let cx4 = centerX + r4 * Math.cos(i / instrument_sum * 2 * Math.PI),
+                cy4 = centerY + r4 * Math.sin(i / instrument_sum * 2 * Math.PI),
+                cx2 = centerX + r3 * Math.cos(i / instrument_sum * 2 * Math.PI),
+                cy2 = centerY + r3 * Math.sin(i / instrument_sum * 2 * Math.PI),
+                cx3 = (cx2 + cx4) / 2,
+                cy3 = (cy2 + cy4) / 2,
+                cx1 = centerX + r2 * Math.cos(i / instrument_sum * 2 * Math.PI),
+                cy1 = centerY + r2 * Math.sin(i / instrument_sum * 2 * Math.PI);
+
+            // Line frame
+            graphics.base_frame.push(svg.append("line")
+                .attr("x1", centerX)
+                .attr("y1", centerY)
+                .attr("x2", cx4)
+                .attr("y2", cy4)
+                .attr("stroke", "#E7E7E7")
+                .attr("stroke-width", 1));
+
+            // Instrument circle
+            instruments.graphics.background.push(svg.append("circle")
+                .attr("cx", cx4)
+                .attr("cy", cy4)
+                .attr("r", 30)
+                .attr("fill", "#DFDFDF")
+                .attr("index", i)
+                .on("mousemove", function () {
+                    this.style.cursor = "pointer";
+                })
+                .on("click", function () {
+                    this.setAttribute("fill", "#AFAFAF");
+                    Instrument.change(this.getAttribute('index'), current_inst.index);
+                }));
+            instruments.graphics.name.push(svg.append("text")
+                .attr("x", cx4 - 50)
+                .attr("y", cy4 - 30)
+                .attr("font-size", 10)
+                .attr('text-anchor', "right")
+                .text(instruments[i].name));
+
+            // Number circle
+            svg.append("circle")
+                .attr("cx", cx2)
+                .attr("cy", cy2)
+                .attr("r", 2 * Math.log2(instruments[i].number + 1))
+                .attr("fill", "#3C3040");
+            svg.append("text")
+                .attr("x", cx2)
+                .attr("y", cy2 + 2)
+                .attr("font-size", 7)
+                .attr('text-anchor', "middle")
+                .attr('fill', '#FFF')
+                .text(instruments[i].number);
+
+            // Material circle
+            svg.append("circle")
+                .attr("cx", cx3)
+                .attr("cy", cy3)
+                .attr("r", 6)
+                .attr("stroke-width", 1.5)
+                .attr("stroke", "#CC3D3E")
+                .attr("fill", "#FFF");
+            svg.append("text")
+                .attr("x", cx3)
+                .attr("y", cy3 + 2)
+                .attr("font-size", 7)
+                .attr('text-anchor', "middle")
+                .text(instruments[i].material);
+        }
+        // Current material circle
+        svg.append("circle")
+            .attr("cx", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
+            .attr("cy", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI))
+            .attr("r", 20)
+            .attr("stroke-width", 3)
+            .attr("stroke", "#CC3D3E")
+            .attr("fill", "#FFF");
+    </script>
+</body>
+
+</html>
