@@ -23,110 +23,8 @@
 </head>
 
 <body>
-
     <script src="../javascripts/d3.min.js"></script>
     <script>
-        /*----------------------------------*
-         *  Raw Data
-         *----------------------------------*/
-        const data = [{
-            "name": "特钟",
-            "material": "金",
-            "number": 1
-        }, {
-            "name": "编钟",
-            "material": "金",
-            "number": 55
-        }, {
-            "name": "特磬",
-            "material": "石",
-            "number": 1
-        }, {
-            "name": "编磬",
-            "material": "石",
-            "number": 24
-        }, {
-            "name": "瓷埙",
-            "material": "土",
-            "number": 2
-        }, {
-            "name": "应鼓",
-            "material": "革",
-            "number": 1
-        }, {
-            "name": "搏拊鼓",
-            "material": "革",
-            "number": 2
-        }, {
-            "name": "七弦琴",
-            "material": "丝",
-            "number": 6
-        }, {
-            "name": "敔",
-            "material": "丝",
-            "number": 1
-        }, {
-            "name": "洞箫",
-            "material": "竹",
-            "number": 6
-        }, {
-            "name": "篪",
-            "material": "竹",
-            "number": 4
-        }, {
-            "name": "龙笛",
-            "material": "竹",
-            "number": 6
-        }, {
-            "name": "凤箫",
-            "material": "竹",
-            "number": 2
-        }, {
-            "name": "大瑟",
-            "material": "丝",
-            "number": 4
-        }, {
-            "name": "笙",
-            "material": "匏",
-            "number": 0
-        }, {
-            "name": "鼗鼓",
-            "material": "革",
-            "number": 6
-        }, {
-            "name": "卉鼓",
-            "material": "革",
-            "number": 1
-        }, {
-            "name": "镛钟",
-            "material": "金",
-            "number": 0
-        }, {
-            "name": "匏",
-            "material": "丝",
-            "number": 2
-        }, {
-            "name": "",
-            "material": "",
-            "number": 0
-        }, {
-            "name": "",
-            "material": "",
-            "number": 0
-        }, {
-            "name": "",
-            "material": "",
-            "number": 0
-        }, {
-            "name": "干",
-            "material": "",
-            "number": 62
-        }, {
-            "name": "戚",
-            "material": "",
-            "number": 63
-        }];
-
         /*----------------------------------*
          * Global variables
          *----------------------------------*/
@@ -172,7 +70,7 @@
                 }
             }
             static change(newIndex, oldIndex) {
-                // 更新当前乐器
+                // update current instrument
                 current_inst.inst = instruments[newIndex];
                 current_inst.graphics.text.text(instruments[newIndex].material);
 
@@ -185,7 +83,7 @@
         /*----------------------------------*
          * Initialize
          *----------------------------------*/
-        function initialize() {
+        function initialize(data) {
             svg = d3.select("body").append("svg");
             for (let i = 0; i < data.length; i++) {
                 instruments.push(new Instrument({
@@ -235,94 +133,99 @@
                 .attr("stroke-width", "1")
                 .attr("fill", "transparent")
             ];
-        }
-        initialize();
+            for (let i = 0; i < instrument_sum; i++) {
+                let cx4 = centerX + r4 * Math.cos(i / instrument_sum * 2 * Math.PI),
+                    cy4 = centerY + r4 * Math.sin(i / instrument_sum * 2 * Math.PI),
+                    cx2 = centerX + r3 * Math.cos(i / instrument_sum * 2 * Math.PI),
+                    cy2 = centerY + r3 * Math.sin(i / instrument_sum * 2 * Math.PI),
+                    cx3 = (cx2 + cx4) / 2,
+                    cy3 = (cy2 + cy4) / 2,
+                    cx1 = centerX + r2 * Math.cos(i / instrument_sum * 2 * Math.PI),
+                    cy1 = centerY + r2 * Math.sin(i / instrument_sum * 2 * Math.PI);
+                // Line frame
+                graphics.base_frame.push(svg.append("line")
+                    .attr("x1", centerX)
+                    .attr("y1", centerY)
+                    .attr("x2", cx4)
+                    .attr("y2", cy4)
+                    .attr("stroke", "#E7E7E7")
+                    .attr("stroke-width", 1));
 
-        /*----------------------------------*
-         * Graphics & Interaction
-         *----------------------------------*/
-        for (let i = 0; i < instrument_sum; i++) {
-            let cx4 = centerX + r4 * Math.cos(i / instrument_sum * 2 * Math.PI),
-                cy4 = centerY + r4 * Math.sin(i / instrument_sum * 2 * Math.PI),
-                cx2 = centerX + r3 * Math.cos(i / instrument_sum * 2 * Math.PI),
-                cy2 = centerY + r3 * Math.sin(i / instrument_sum * 2 * Math.PI),
-                cx3 = (cx2 + cx4) / 2,
-                cy3 = (cy2 + cy4) / 2,
-                cx1 = centerX + r2 * Math.cos(i / instrument_sum * 2 * Math.PI),
-                cy1 = centerY + r2 * Math.sin(i / instrument_sum * 2 * Math.PI);
+                // Instrument circle
+                instruments[i].graphics.background = svg.append("circle")
+                    .attr("cx", cx4)
+                    .attr("cy", cy4)
+                    .attr("r", 30)
+                    .attr("fill", "#DFDFDF")
+                    .attr("index", i)
+                    .on("mousemove", function () {
+                        this.style.cursor = "pointer";
+                    })
+                    .on("click", function () {
+                        Instrument.change(this.getAttribute('index'), current_inst.inst.index);
+                    });
+                instruments[i].graphics.name = svg.append("text")
+                    .attr("x", cx4 - 50)
+                    .attr("y", cy4 - 30)
+                    .attr("font-size", 10)
+                    .attr('text-anchor', "right")
+                    .text(instruments[i].name);
 
-            // Line frame
-            graphics.base_frame.push(svg.append("line")
-                .attr("x1", centerX)
-                .attr("y1", centerY)
-                .attr("x2", cx4)
-                .attr("y2", cy4)
-                .attr("stroke", "#E7E7E7")
-                .attr("stroke-width", 1));
+                // Number circle
+                svg.append("circle")
+                    .attr("cx", cx2)
+                    .attr("cy", cy2)
+                    .attr("r", 2 * Math.log2(instruments[i].number + 1))
+                    .attr("fill", "#3C3040");
+                svg.append("text")
+                    .attr("x", cx2)
+                    .attr("y", cy2 + 2)
+                    .attr("font-size", 7)
+                    .attr('text-anchor', "middle")
+                    .attr('fill', '#FFF')
+                    .text(instruments[i].number);
 
-            // Instrument circle
-            instruments[i].graphics.background = svg.append("circle")
-                .attr("cx", cx4)
-                .attr("cy", cy4)
-                .attr("r", 30)
-                .attr("fill", "#DFDFDF")
-                .attr("index", i)
-                .on("mousemove", function () {
-                    this.style.cursor = "pointer";
-                })
-                .on("click", function () {
-                    Instrument.change(this.getAttribute('index'), current_inst.inst.index);
-                });
-            instruments[i].graphics.name = svg.append("text")
-                .attr("x", cx4 - 50)
-                .attr("y", cy4 - 30)
-                .attr("font-size", 10)
-                .attr('text-anchor', "right")
-                .text(instruments[i].name);
-
-            // Number circle
-            svg.append("circle")
-                .attr("cx", cx2)
-                .attr("cy", cy2)
-                .attr("r", 2 * Math.log2(instruments[i].number + 1))
-                .attr("fill", "#3C3040");
-            svg.append("text")
-                .attr("x", cx2)
-                .attr("y", cy2 + 2)
-                .attr("font-size", 7)
-                .attr('text-anchor', "middle")
-                .attr('fill', '#FFF')
-                .text(instruments[i].number);
-
-            // Material circle
-            svg.append("circle")
-                .attr("cx", cx3)
-                .attr("cy", cy3)
-                .attr("r", 6)
-                .attr("stroke-width", 1.5)
+                // Material circle
+                svg.append("circle")
+                    .attr("cx", cx3)
+                    .attr("cy", cy3)
+                    .attr("r", 6)
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke", "#CC3D3E")
+                    .attr("fill", "#FFF");
+                svg.append("text")
+                    .attr("x", cx3)
+                    .attr("y", cy3 + 2)
+                    .attr("font-size", 7)
+                    .attr('text-anchor', "middle")
+                    .text(instruments[i].material);
+            }
+            // Current material circle
+            current_inst.graphics.circle = svg.append("circle")
+                .attr("cx", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
+                .attr("cy", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI))
+                .attr("r", 20)
+                .attr("stroke-width", 3)
                 .attr("stroke", "#CC3D3E")
                 .attr("fill", "#FFF");
-            svg.append("text")
-                .attr("x", cx3)
-                .attr("y", cy3 + 2)
-                .attr("font-size", 7)
+            current_inst.graphics.text = svg.append("text")
+                .attr("x", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
+                .attr("y", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI) + 6)
+                .attr("font-size", 18)
                 .attr('text-anchor', "middle")
-                .text(instruments[i].material);
+                .text(instruments[0].material);
         }
-        // Current material circle
-        current_inst.graphics.circle = svg.append("circle")
-            .attr("cx", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
-            .attr("cy", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI))
-            .attr("r", 20)
-            .attr("stroke-width", 3)
-            .attr("stroke", "#CC3D3E")
-            .attr("fill", "#FFF");
-        current_inst.graphics.text = svg.append("text")
-            .attr("x", centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
-            .attr("y", centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI) + 6)
-            .attr("font-size", 18)
-            .attr('text-anchor', "middle")
-            .text(instruments[0].material);
+
+        // Load json data
+        d3.json("../json/instruments.json").then(function (data) {
+            initialize(data);
+
+        });
+
+        // d3.xml("../images/svg/七弦琴.svg").mimeType("image/svg+xml").get(function (error, xml) {
+        //     if (error) throw error;
+        //     console.log(xml.documentElement);
+        // });
     </script>
 </body>
 
