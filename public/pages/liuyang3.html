@@ -17,6 +17,31 @@
             src: url(../fonts/SourceHanSansSC-Normal.otf);
         }
 
+        @font-face {
+            font-family: "北师大说文小篆";
+            src: url(../fonts/北师大说文小篆_0.TTF);
+        }
+
+        @font-face {
+            font-family: "方正粗金陵";
+            src: url(../fonts/方正粗金陵.TTF);
+        }
+
+        @font-face {
+            font-family: "方正小篆体";
+            src: url(../fonts/方正小篆体.TTF);
+        }
+
+        @font-face {
+            font-family: "苹方字体";
+            src: url(../fonts/苹方字体.TTF);
+        }
+
+        @font-face {
+            font-family: "青羊字体";
+            src: url(../fonts/青羊字体.TTF);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -75,7 +100,8 @@
         }
 
         #main {
-            background-color: #C42C2C;
+            /* background-color: #C42C2C; */
+            background-image: linear-gradient(30deg, #C42C2C, #C42C2C, #C42C2C, #E2AAA9);
             color: #F2F7D9;
             padding-top: 60px;
         }
@@ -93,6 +119,35 @@
         #part3 {
             height: 1000px;
         }
+
+        /* 时间轴 */
+        .timePoints {
+            background-color: #ffffff;
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+        }
+
+        #timeAxis {
+            width: 1px;
+            height: 300px;
+            background-color: #FFF;
+        }
+
+        /* 钟表
+        #clockSurface {
+            background-color: #F9A262;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        #clockPointer {
+            background-color: #ED8958;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        } */
 
         .subtitle,
         .cloud {
@@ -116,6 +171,7 @@
         </ul>
     </div>
     <div id="banner">
+        <img src="../images/svg/pic1.svg" alt="#" width="300px" style="float: right;">
         <h1 id="title">浏阳文庙祭孔音乐</h1>
         <p id="intro">浏阳祭孔音乐创制于道光九年（1829年），是湖南浏阳文士邱之稑，依据山东曲阜祭孔音乐创制的一套在祭孔典礼上演奏的仪式音乐,
             又称为“孔庙丁祭音乐”。其最大特征是“乐”和“礼”紧密结合，不同的礼仪程序配有不同的乐章，奏乐与行礼交替进行。2007 年6 月9 日, “浏阳文庙祭孔古乐”正式入选长沙市首批非物质文化遗产。</p>
@@ -124,6 +180,19 @@
     <div id="main">
         <div class="parts" id="part1">
             <h2 class="subtitle">祭孔典礼在什么时候？</h2>
+            <div id="timeAxis">
+                <div id="timeAxis"></div>
+                <div class="timePoints" id="point1829"></div>
+                <div class="timePoints" id="point1948"></div>
+                <div class="timePoints" id="point2007"></div>
+            </div>
+            <div id="clock">
+                <svg xmlns="http://www.w3.org/2000/svg" id="svg_draw" width="300" height="300" baseProfile="full"
+                    xmlns:NS1="" NS1:xmlns:ev="http://www.w3.org/2001/xml-events" version="1.1">
+                    <path d="M300,175 a150,150 0 0,1 -150,150 l -0 -150 z" fill="#ED8958" />
+                </svg>
+
+            </div>
             <img class="cloud" id="cloud1" src="../images/svg/cloud.svg" alt="" height="100px">
         </div>
         <div class="parts" id="part2">
