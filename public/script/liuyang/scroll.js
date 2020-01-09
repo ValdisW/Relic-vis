@@ -94,22 +94,22 @@ positionVert('#part6 .subtitle', '#part6 .subtitle', -60, 0.6);
 positionVert('#startTime', '#startTime', -100, 1);
 
 
-scrollama().setup({
-    step: sensor_selector,
-    offset: offset,
-    threshold: 0.4,
-    progress: true,
-    debug: false
-}).onStepEnter(function (res) {
-    // console.log(res);
-}).onStepExit(function (res) {
-    // console.log(res);
-}).onStepProgress(function (res) {
-    $(obj_selector).css({
-        "top": originTop + distance * res.progress + "px",
-        "opacity": res.progress
-    })
-});
+// scrollama().setup({
+//     step: sensor_selector,
+//     offset: offset,
+//     threshold: 0.4,
+//     progress: true,
+//     debug: false
+// }).onStepEnter(function (res) {
+//     // console.log(res);
+// }).onStepExit(function (res) {
+//     // console.log(res);
+// }).onStepProgress(function (res) {
+//     $(obj_selector).css({
+//         "top": originTop + distance * res.progress + "px",
+//         "opacity": res.progress
+//     })
+// });
 // // SVG
 // scrollama().setup({
 //     step: '#timeAxis',

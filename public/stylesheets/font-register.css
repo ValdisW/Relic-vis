@@ -9,6 +9,11 @@
 } */
 
 @font-face {
+    font-family: "MinionPro";
+    src: url(../fonts/MinionPro-Semibold.otf);
+}
+
+@font-face {
     font-family: "北师大说文小篆";
     src: url(../fonts/北师大说文小篆_0.TTF);
 }

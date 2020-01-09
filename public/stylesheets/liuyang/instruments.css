@@ -3,7 +3,7 @@
     height: 1200px;
 }
 
-#instruments p {
+#instruments>p {
     position: absolute;
     top: 60px;
     left: 50%;
@@ -68,4 +68,26 @@
     top: 880px;
     left: 320px;
     width: 300px;
+}
+
+#current-name {
+    position: absolute;
+    top: 928px;
+    left: 367px;
+    width: 260px;
+    color: #c42c2c;
+    font-size: 30px;
+    font-family: 方正粗金陵;
+    text-align: center;
+    letter-spacing: 12px;
+}
+
+#current-info {
+    position: absolute;
+    font-family: 方正粗金陵;
+    top: 1020px;
+    left: 370px;
+    width: 260px;
+    font-size: 18px;
+    line-height: 26px;
 }

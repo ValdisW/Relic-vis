@@ -62,7 +62,7 @@ function initialize(data) {
     svg = d3.select("#instruments").append("svg")
         .style("height", "1000px")
         .style("position", "absolute")
-        .style("top", "300px");
+        .style("top", "230px");
 
     // initialize instrument info
     for (let i = 0; i < data.length; i++) {
@@ -79,8 +79,8 @@ function initialize(data) {
     instrument_sum = instruments.length;
     centerX = window.innerWidth / 5 * 4;
     centerY = window.innerHeight / 3 * 2;
-    detail_centerX = window.innerWidth / 4;
-    detail_centerY = window.innerHeight / 3 * 2;
+    detail_centerX = 300;
+    detail_centerY = 653;
     r1 = 125;
     r2 = 150;
     r3 = 230;
@@ -209,14 +209,23 @@ function initialize(data) {
         .attr("xlink:href", "../images/svg/七弦琴.svg");
 
     // Current material circle
-    current_inst.graphics.circle = svg.append("circle")
-        .attr("cx", detail_centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
-        .attr("cy", detail_centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI))
-        .attr("r", 20)
+    // current_inst.graphics.circle = svg.append("circle")
+    //     .attr("cx", detail_centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
+    //     .attr("cy", detail_centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI))
+    //     .attr("r", 20)
+    //     .attr("fill", "#F2F7D9");
+    let hex_str = "";
+    for (let i = 0; i < 6; i++) {
+        hex_str += (detail_centerX + 20 * Math.cos(i * Math.PI / 3)).toFixed(1) + "," +
+            (detail_centerY + 20 * Math.sin(i * Math.PI / 3)).toFixed(1) + " ";
+    }
+    current_inst.graphics.circle = svg.append("polygon")
+        .attr("points", hex_str)
         .attr("fill", "#F2F7D9");
+
     current_inst.graphics.text = svg.append("text")
-        .attr("x", detail_centerX + r2 * Math.cos(-75 / 360 * 2 * Math.PI))
-        .attr("y", detail_centerY + r2 * Math.sin(-75 / 360 * 2 * Math.PI) + 6)
+        .attr("x", detail_centerX)
+        .attr("y", detail_centerY + 6)
         .attr("font-size", 18)
         .attr('text-anchor', "middle")
         .text(instruments[0].material);

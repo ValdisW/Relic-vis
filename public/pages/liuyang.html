@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>浏阳文庙祭孔音乐</title>
+    <title>浏阳古乐</title>
     <link rel="icon" href="../images/icons/icon.png" sizes="64x64">
     <link rel="stylesheet" href="../stylesheets/font-register.css">
     <link rel="stylesheet" href="../stylesheets/liuyang.css">
@@ -15,16 +15,29 @@
     <link rel="stylesheet" href="../stylesheets/liuyang/instruments.css">
     <link rel="stylesheet" href="../stylesheets/liuyang/material.css">
     <link rel="stylesheet" href="../stylesheets/liuyang/pattern.css">
+    <link rel="stylesheet" href="../stylesheets/nav.css">
 </head>
 
 <body>
-    <!-- Navigation -->
+    <!-- nav -->
     <div id="nav">
+        <img src="../images/svg/nav_icon.svg" alt="">
         <ul>
-            <li><a href="#">商周青铜器</a></li>
-            <li><a href="#">汉墓马王堆</a></li>
-            <li><a href="#" id="active">浏阳文庙乐器</a></li>
-            <li><a href="#">古琴文化</a></li>
+            <li><a href="./shangzhou.html">钟鸣鼎食</a></li>
+            <li class="split-line">
+                <hr>
+            </li>
+            <li><a href="./guqin.html">文人古琴</a></li>
+            <li class="split-line">
+                <hr>
+            </li>
+            <li><a href="./liuyang.html">浏阳古乐</a></li>
+            <li class="split-line">
+                <hr>
+            </li>
+            <li>
+                <div id="down-triangle"></div>
+            </li>
         </ul>
     </div>
 
@@ -239,7 +252,9 @@
                         据《浏阳县志》卷十记载浏阳祭孔音乐所用的十五种古乐器
                     </li>
                 </ul>
-                <div id="yq-circle">
+                <img id="yq-circle" src="../images/svg/liuyang/temp_instrument.svg" alt="">
+                <img id="wq-circle" src="../images/svg/liuyang/temp_prop.svg" alt="">
+                <!-- <div id="yq-circle">
                     <div id="yq-circle-inner">
                         <b>146</b>件
                         <p>乐器</p>
@@ -250,8 +265,12 @@
                         <b>98</b>件
                         <p>舞器</p>
                     </div>
+                </div> -->
+                <div id="current">
+                    <img id="current-frame" src="../images/svg/liuyang/current_frame.svg" alt="">
+                    <p id="current-name">特钟</p>
+                    <p id="current-info">浏阳古乐中的特钟，是清代道光年间浏阳县一樵夫从深山挖掘所得，后被邱之稑采用编入浏阳古乐，从其形制、纹饰判断，应是一件西周早期的铜铙。</p>
                 </div>
-                <img id="current-frame" src="../images/svg/liuyang/current_frame.svg" alt="">
             </div>
         </div>
 
@@ -288,6 +307,7 @@
     <script src="../script/liuyang/part3_employment.js"></script>
     <script src="../script/liuyang/material.js"></script>
     <script src="../script/liuyang/scroll.js"></script>
+    <script src="../script/nav.js"></script>
 </body>
 
 </html>
