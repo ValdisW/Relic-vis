@@ -1,0 +1,29 @@
+#intro .line1,
+#intro .line2 {
+    width: 30%;
+    height: 1px;
+    background-color: #204a46;
+}
+
+#intro .point1,
+#intro .point2 {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #204a46;
+}
+
+#intro h2 {
+    text-align: center;
+}
+
+#intro p {
+    width: 36%;
+    margin: 0 auto;
+}
+
+#intro img {
+    width: 36%;
+    display: block;
+    margin: 0 auto;
+}
