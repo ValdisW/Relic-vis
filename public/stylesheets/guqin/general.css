@@ -1,3 +1,62 @@
+#general {
+    position: relative;
+    height: 900px;
+}
+
+#general h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    top: 100px;
+}
+
+#general h2 span {
+    font-size: 23px;
+}
+
 #general p {
+    position: absolute;
     font-size: 11px;
+    right: 50px;
+    bottom: 20px;
+}
+
+#general .divide-line {
+    top: 48px;
+}
+
+#general .chart-label {
+    position: absolute;
+    display: block;
+    width: 72px;
+}
+
+#label-time {
+    top: 290px;
+    left: 288px;
+}
+
+#label-shape {
+    top: 290px;
+    left: 523px;
+}
+
+#label-origin {
+    top: 290px;
+    left: 754px;
+}
+
+#label-name {
+    top: 180px;
+    left: 990px;
+}
+
+#chart-block {
+    position: absolute;
+    top: 230px;
+    width: 1000px;
+    height: 600px;
+    left: 50%;
+    transform: translateX(-50%);
 }

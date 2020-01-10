@@ -15,10 +15,14 @@
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    color: #FFF;
-    background-color: #1a2f46;
+    color: #000;
+    background-color: #e9c026;
     text-align: center;
     line-height: 16px;
+}
+
+.detail {
+    font-size: 12px;
 }
 
 .block {

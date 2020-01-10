@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 苹方字体;
+    font-family: MinionPro;
     user-select: none;
 }
 
@@ -20,6 +20,13 @@ body {
 #place,
 #factions {
     position: relative;
+}
+
+.divide-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
 }
 
 h1,

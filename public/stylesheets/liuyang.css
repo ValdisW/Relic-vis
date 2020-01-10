@@ -3,7 +3,8 @@
     padding: 0;
     user-select: none;
     text-decoration: none;
-    font-family: 苹方字体;
+    font-family: MinionPro;
+    font-weight: lighter;
 }
 
 html,
@@ -30,16 +31,45 @@ svg {
 
 /* Banner */
 #banner {
-    padding-bottom: 100px;
+    position: relative;
+    height: 100%;
+}
+
+#banner h1 {
+    font-size: 45px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 38px;
+    top: 100px;
+}
+
+#banner h1 span {
+    font-size: 30px;
+}
+
+#banner #star {
+    position: absolute;
+    top: 80px;
+    left: 60%;
+    width: 25px;
+}
+
+#banner p {
+    font-size: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 260px;
+    line-height: 28px;
 }
 
 #title {
     font-family: 方正粗金陵;
-    font-size: 52px;
+    font-size: 45px;
     font-weight: lighter;
     color: #C42C2B;
-    margin-bottom: 30px;
-    padding-left: 90px;
 }
 
 #intro {
@@ -48,24 +78,30 @@ svg {
     padding-left: 30px;
 }
 
+#semi {
+    position: absolute;
+    height: 250px;
+    width: 250px;
+    background-color: #e9c026;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    top: 300px;
+}
+
 #banner hr {
+    position: absolute;
+    width: 100%;
+    bottom: 60px;
     border: .8px solid #000;
 }
 
 #down-arrow {
-    height: 20px;
     display: block;
-    margin: 10px auto 30px;
-}
-
-#semi {
-    height: 220px;
-    width: 220px;
-    background-color: #e9c026;
-    border-radius: 50%;
-    margin-left: -110px;
-    margin-top: 60px;
-    margin-bottom: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20px;
+    bottom: 100px;
 }
 
 /* Main parts */
@@ -80,6 +116,12 @@ svg {
     font-family: 方正粗金陵;
     color: #c42c2c;
     font-weight: lighter;
+    font-size: 35px;
+    text-align: center;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.subtitle span {
+    font-size: 23px;
 }
